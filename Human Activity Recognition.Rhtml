@@ -1,0 +1,77 @@
+<html>
+
+<head>
+<title>Human Activity Recognition</title>
+</head>
+
+<body>
+
+<h1>Human Activity Recognition</h1>
+<p>Training data was obtained from the link specified in the markdown file and following steps were undertaken to form the final model, which was used to predict the ‘classe’ variable from test data-</p>
+<ul><li>Training set was loaded in R and observed. It was found that the set had 159 columns, with a few columns filled with just ‘NA’ or were just empty. It was also assumed that the first 5 columns namely ‘user_name’, ’raw_timestamp_part_1, ‘raw_timestamp_part_2’, ‘cvtd_timestamp’ and ‘new_window’ would hold no significance in predicting the ‘classe’ variable.</li>
+<li>The above 5 mentioned columns along with columns that were empty or contained just ‘NA’ were removed.</li>
+<li>Execution of the above step reduced the number of columns to 145. Next, data was preprocessed using ‘KNN Impute’ for filling up missing values.</li>
+<li>Since, predictors mustn’t be strong correlated with each other, a correlation matrix was produced for the above data, and all the predictors/columns that had a correlation of more than 0.7 were removed, provided they didn’t have a correlation of greater than 0.6 with the ‘classe’ variable.</li> 
+<li>The above step reduced the number of columns to 86. Using ‘doMC” package a cluster of 4 cores was made to carry out processing in parallel.</li>
+<li>In order to reduce the number of predictors and to form a model,<b> a recursive feature selection</b> was carried out using <b>random forest</b>. An <b>8 fold cross validation</b> was also carried out in order to avoid over fitting.</li></ui>
+<p>Recursive feature selection</p>
+
+<p>Outer resampling method: Bootstrapped (8 reps) </p>
+
+<p>Resampling performance over subset size:</p>
+<table>
+  <tr>
+    <td>Vaiables</td>
+    <td>Accuracy</td> 
+    <td>Kappa</td>
+    <td>AccuracySD</td>
+    <td>KappaSD</td>
+    <td>Selected</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>0.9988</td> 
+    <td>0.9984</td>
+    <td>0.0004887</td>
+    <td>0.0006181</td> 
+    <td>*</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>0.9971</td> 
+    <td>0.9963</td>
+    <td>0.0007217</td>
+    <td>0.0009101</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>0.9973</td> 
+    <td>0.9966</td>
+    <td>0.0009260</td>
+    <td>0.0011698</td> 
+    <td></td>
+  </tr>
+  <tr>
+    <td>85</td>
+    <td>0.9930</td> 
+    <td>0.9911</td>
+    <td>0.0010672</td>
+    <td>0.0013547</td>
+    <td></td>
+  </tr>
+  
+</table>
+
+        
+
+<p>The top 4 variables (out of 4):</p>
+   num_window, pitch_belt, magnet_dumbbell_z, magnet_dumbbell_y
+   
+
+<ui><li>It can be seen that an 8 fold cross validation was applied and a model with an accuracy of 0.9988 was produced. This gives us <b>out of sample error to be 0.0012.</b></li>
+<li>The above model was applied to the given test data (after eliminating the required columns and pre processing it to fill NA values). </li></ui>
+
+
+</body>
+</html>
